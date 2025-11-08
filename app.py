@@ -32,6 +32,20 @@ model = load_the_model(model_path)
 
 st.title("🐄 Cattle Breed Identifier")
 
+# Show supported breeds under the title
+st.subheader("Supported breeds")
+try:
+    # Build ordered list by index (0..n-1)
+    num_classes = len(class_indices)
+    labels_ordered = [idx_to_class[i] for i in range(num_classes)]
+    st.write(f"{num_classes} breeds supported:")
+    for breed in labels_ordered:
+        st.markdown(f"- {breed}")
+except Exception:
+    # Fallback: if something unexpected happens, show a simple message
+    st.info("Breed list not available")
+
+
 uploaded_file = st.file_uploader("Upload an image of cattle", type=["jpg", "jpeg", "png"])
 if uploaded_file:
     img = image.load_img(uploaded_file, target_size=(224, 224))
